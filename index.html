@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uni-Twin | College Helper</title>
+
+<style>
+:root {
+  --bg: #f4f6fb;        /* Page background (white-ish) */
+  --header: #111827;   /* Dark header */
+  --card: #ffffff;    /* White cards */
+  --text: #4b5563;    /* Normal text */
+  --title: #ffffff;   /* Header text */
+  --card-title: #111827;
+  --accent: #2563eb;  /* Blue accent */
+  --accent-soft: rgba(37,99,235,0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ================= HEADER ================= */
+header {
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #111827
+  );
+  padding: 35px 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+header h1 {
+  color: var(--title);
+  font-size: 2.1rem;
+  letter-spacing: 1px;
+}
+
+/* ================= MAIN ================= */
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+/* ================= GRID ================= */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.8rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ================= CARDS ================= */
+.feature-box {
+  background: var(--card);
+  height: 200px;
+  border-radius: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  transition: all 0.35s ease;
+}
+
+/* Accent overlay */
+.feature-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 40%,
+    var(--accent-soft)
+  );
+  opacity: 0;
+  transition: 0.35s ease;
+}
+
+.feature-box:hover::after {
+  opacity: 1;
+}
+
+.feature-box:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+}
+
+/* Card title */
+.feature-box h2 {
+  color: var(--card-title);
+  font-size: 1.25rem;
+  z-index: 1;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.7rem;
+  }
+
+  .feature-box {
+    height: 165px;
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <h1>Uni-Twin</h1>
+</header>
+
+<main class="container">
+  <div class="features">
+
+    <div class="feature-box" onclick="location.href='gpa.html'">
+      <h2>GPA Calculator</h2>
+    </div>
+
+    <div class="feature-box" onclick="location.href='cgpa.html'">
+      <h2>CGPA Calculator</h2>
+    </div>
+
+    <div class="feature-box" onclick="underDev('Internal Calculator')">
+      <h2>Internal Calculator</h2>
+    </div>
+
+    <div class="feature-box" onclick="underDev('Notes')">
+      <h2>Notes</h2>
+    </div>
+
+    <div class="feature-box" onclick="underDev('Assignment Marker')">
+      <h2>Assignment Marker</h2>
+    </div>
+
+    
+
+  </div>
+</main>
+
+<script>
+function underDev(featureName) {
+  alert(featureName + " is under development 🚧");
+}
+</script>
+
+</body>
+</html>

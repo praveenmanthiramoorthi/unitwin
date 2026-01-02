@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uni-Twin | GPA Calculator</title>
+<style>
+body { margin:0; font-family: Arial, sans-serif; background: #f4f4f4; }
+header { background: #1e1e2f; color: #fff; padding: 18px; text-align: center; }
+.container { max-width: 700px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+label { font-weight: bold; }
+select, button { width: 100%; padding: 10px; margin: 10px 0 16px; border-radius: 6px; border: 1px solid #ccc; }
+button { background: #1e1e2f; color: #fff; border: none; cursor: pointer; }
+button:hover { background: #34345a; }
+.subject { border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+.result { text-align: center; font-size: 20px; font-weight: bold; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<header>
+<h1>Uni-Twin</h1>
+</header>
+
+<div class="container">
+<h2>GPA Calculator</h2>
+
+<!-- Step 1: Department -->
+<label>Department</label>
+<select id="dept">
+    <option value="">Select Department</option>
+</select>
+
+<!-- Step 2: Semester -->
+<div id="semesterBlock" style="display:none;">
+    <label>Semester</label>
+    <select id="semester">
+        <option value="">Select Semester</option>
+    </select>
+</div>
+
+<!-- Step 3: Subjects -->
+<div id="subjects"></div>
+
+<!-- Step 4: Calculate -->
+<button id="calcBtn" style="display:none;">Calculate GPA</button>
+<div class="result" id="result"></div>
+</div>
+
+<script>
+const gradePoints = { "O":10,"A+":9,"A":8,"B+":7,"B":6,"C":5,"U":0 };
+let subjectsData = {};
+
+// Load subjects JSON dynamically
+fetch('subjects.json')
+  .then(response => response.json())
+  .then(data => {
+    subjectsData = data;
+    populateDepartments();
+  })
+  .catch(err => console.error("Error loading subjects:", err));
+
+const deptSelect = document.getElementById('dept');
+const semBlock = document.getElementById('semesterBlock');
+const semSelect = document.getElementById('semester');
+const subjectsDiv = document.getElementById('subjects');
+const calcBtn = document.getElementById('calcBtn');
+const resultDiv = document.getElementById('result');
+
+// Populate departments dynamically
+function populateDepartments() {
+    Object.keys(subjectsData).forEach(dept => {
+        deptSelect.innerHTML += `<option value="${dept}">${dept}</option>`;
+    });
+}
+
+// Department selection
+deptSelect.addEventListener('change', () => {
+    const dept = deptSelect.value;
+    subjectsDiv.innerHTML = "";
+    resultDiv.innerText = "";
+    calcBtn.style.display = "none";
+
+    if (!dept) { semBlock.style.display = "none"; return; }
+
+    const semesters = subjectsData[dept];
+    if (!semesters) {
+        alert(dept + " is under development 🚧");
+        deptSelect.value = "";
+        semBlock.style.display = "none";
+        return;
+    }
+
+    // Populate semesters
+    semSelect.innerHTML = '<option value="">Select Semester</option>';
+    Object.keys(semesters).forEach(s => {
+        semSelect.innerHTML += `<option value="${s}">Semester ${s}</option>`;
+    });
+    semBlock.style.display = "block";
+});
+
+// Semester selection
+semSelect.addEventListener('change', () => {
+    const dept = deptSelect.value;
+    const sem = semSelect.value;
+    subjectsDiv.innerHTML = "";
+    resultDiv.innerText = "";
+    calcBtn.style.display = "none";
+
+    if (!sem) return;
+
+    subjectsData[dept][sem].forEach(sub => {
+        subjectsDiv.innerHTML += `
+        <div class="subject">
+            <strong>${sub.name}</strong><br>
+            Credits: ${sub.credit}
+            <select class="grade" data-credit="${sub.credit}">
+                <option value="">Grade</option>
+                <option>O</option>
+                <option>A+</option>
+                <option>A</option>
+                <option>B+</option>
+                <option>B</option>
+                <option>C</option>
+                <option>U</option>
+            </select>
+        </div>`;
+    });
+    calcBtn.style.display = "block";
+});
+
+// GPA calculation
+calcBtn.addEventListener('click', () => {
+    const grades = document.querySelectorAll(".grade");
+    let totalCredits = 0, sum = 0;
+
+    for (let g of grades) {
+        if (!g.value) { alert("Select all grades"); return; }
+        const credit = Number(g.dataset.credit);
+        totalCredits += credit;
+        sum += credit * gradePoints[g.value];
+    }
+
+    const gpa = (sum / totalCredits).toFixed(2);
+    resultDiv.innerText = `Your GPA is ${gpa}`;
+});
+</script>
+
+</body>
+</html>
