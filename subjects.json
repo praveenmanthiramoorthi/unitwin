@@ -32,6 +32,18 @@
       { "name": "DBMS Lab", "credit": 1 },
       { "name": "OOP Lab", "credit": 1 },
       { "name": "Data Wrangling", "credit": 1 }
+    ],
+    "4": [
+      { "name": "Environmental Sciences and Sustainability", "credit": 2 },
+      { "name": "Formal Language and Automata Theory", "credit": 4 },
+      { "name": "Data Analytics", "credit": 3 },
+      { "name": "Machine Learning", "credit": 3 },
+      { "name": "Operating Systems", "credit": 3 },
+      { "name": "Design and Analysis of Algorithms", "credit": 4 },
+      { "name": "Machine Learning Laboratory", "credit": 1 },
+      { "name": "Data Analytics Laboratory", "credit": 1 },
+      { "name": "Operating Systems Laboratory", "credit": 1 },
+      { "name": "Introduction to AZURE Machine Learning", "credit": 1 }
     ]
   }
 }
